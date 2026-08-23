@@ -8,7 +8,7 @@ __pycache__/
 *$py.class
 *.so
 
-# Output generati (non versionare i file delle news)
+# Output generati
 output/
 
 # IDE/editor
