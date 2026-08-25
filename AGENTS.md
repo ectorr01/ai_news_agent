@@ -2,14 +2,14 @@
 
 ## Panoramica del progetto
 
-Agente Python che cerca le notizie più recenti sull'intelligenza artificiale, seleziona le 3 più rilevanti, ne genera un riassunto e salva l'output su file (Markdown compatibile Obsidian). In futuro l'output potrà essere inviato anche via Telegram: **il codice va scritto in modo che l'output (summary) sia disaccoppiato dal canale di distribuzione** (file vs Telegram vs altro), per non dover riscrivere la logica di ricerca/riassunto quando si aggiungerà il secondo canale.
+Agente Python che cerca le notizie più recenti sull'intelligenza artificiale, seleziona le 3 più rilevanti, ne genera un riassunto e salva l'output su file (Markdown compatibile Obsidian). L'output viene inviato anche via Telegram tramite il modulo `notifiers/telegram.py`: **il codice è scritto in modo che l'output (summary) sia disaccoppiato dal canale di distribuzione** (file vs Telegram vs altro), per non dover riscrivere la logica di ricerca/riassunto quando si aggiungerà un nuovo canale.
 
 Stack previsto:
 - Python 3.11+
 - `feedparser` per il recupero notizie via RSS (nessuna API key richiesta)
 - SDK LLM per il riassunto (modello free di Openrouter, chiave da variabile d'ambiente)
-- Output: file `.md` con front matter compatibile Obsidian
-- Gestione config tramite file `.env` (mai committato)
+- Output: file `.md` con front matter compatibile Obsidian + invio Telegram
+- Gestione config tramite file `.env` (mai committato) con variabili: `OPENROUTER_API_KEY`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`
 
 ## Struttura cartelle
 
@@ -19,7 +19,9 @@ news/
 │   ├── fetch_news.py       # ricerca e recupero notizie via RSS
 │   ├── summarize.py        # riassunto via LLM
 │   ├── output_writer.py    # scrittura file Markdown/Obsidian
-│   ├── notifiers/          # canali di invio (telegram.py in futuro)
+│   ├── notifiers/          # canali di invio
+│   │   ├── __init__.py
+│   │   └── telegram.py     # invio via Telegram Bot API
 │   └── main.py             # orchestrazione del flusso
 ├── output/
 │   └── YYYY-MM-DD-ai-news.md
@@ -101,11 +103,11 @@ date: {YYYY-MM-DD}
 
 Non sovrascrivere file di output esistenti con lo stesso nome: se il file esiste già, accodare un suffisso numerico o chiedere conferma.
 
-## Canali di distribuzione (in evoluzione)
+## Canali di distribuzione
 
-- Ora: scrittura su file locale Markdown.
-- Futuro: invio via Telegram (bot token e chat id da `.env`, mai hardcoded).
-- Il modulo che genera il riassunto non deve conoscere il canale di output: passare sempre il contenuto già pronto a una funzione `notify(content: str)` che poi verrà implementata per file, poi per Telegram, senza toccare `summarize.py`.
+- **File locale**: scrittura su file Markdown compatibile Obsidian in `output/YYYY-MM-DD-ai-news.md` (vedi `output_writer.py`).
+- **Telegram**: modulo `notifiers/telegram.py` con funzione `send_to_telegram(content: str) -> bool` che legge `TELEGRAM_BOT_TOKEN` e `TELEGRAM_CHAT_ID` da `.env`, chiama l'API `sendMessage` con `parse_mode='Markdown'`, gestisce errori di rete con try/except, logga errori e ritorna `True` solo se la risposta API ha `ok: true`.
+- Il modulo che genera il riassunto non deve conoscere il canale di output: passare sempre il contenuto già pronto a una funzione di notifica che poi verrà implementata per file, Telegram, o altro, senza toccare `summarize.py`.
 
 ## Confini
 
