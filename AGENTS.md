@@ -9,7 +9,7 @@ Stack previsto:
 - `feedparser` per il recupero notizie via RSS (nessuna API key richiesta)
 - SDK LLM per il riassunto (modello free di Openrouter, chiave da variabile d'ambiente)
 - Output: file `.md` con front matter compatibile Obsidian + invio Telegram
-- Gestione config tramite file `.env` (mai committato) con variabili: `OPENROUTER_API_KEY`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`
+- Gestione config tramite file `.env` (mai committato) con variabili: `OPENROUTER_API_KEY`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `TELEGRAM_CHANNEL_ID`
 
 ## Struttura cartelle
 
@@ -106,7 +106,7 @@ Non sovrascrivere file di output esistenti con lo stesso nome: se il file esiste
 ## Canali di distribuzione
 
 - **File locale**: scrittura su file Markdown compatibile Obsidian in `output/YYYY-MM-DD-ai-news.md` (vedi `output_writer.py`).
-- **Telegram**: modulo `notifiers/telegram.py` con funzione `send_to_telegram(content: str) -> bool` che legge `TELEGRAM_BOT_TOKEN` e `TELEGRAM_CHAT_ID` da `.env`, chiama l'API `sendMessage` con `parse_mode='Markdown'`, gestisce errori di rete con try/except, logga errori e ritorna `True` solo se la risposta API ha `ok: true`.
+- **Telegram**: modulo `notifiers/telegram.py` con funzione `send_to_telegram(content: str) -> bool` che legge `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` (chat privata) e `TELEGRAM_CHANNEL_ID` (canale) da `.env`. Invia il messaggio a entrambi gli ID se presenti, loggando successo/fallimento per ciascuno separatamente. Chiama l'API `sendMessage` con `parse_mode='Markdown'`, gestisce errori di rete con try/except, ritorna `True` se almeno un invio ha successo.
 - Il modulo che genera il riassunto non deve conoscere il canale di output: passare sempre il contenuto già pronto a una funzione di notifica che poi verrà implementata per file, Telegram, o altro, senza toccare `summarize.py`.
 
 ## Confini
