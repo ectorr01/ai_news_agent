@@ -7,6 +7,7 @@ import sys
 from .fetch_news import fetch_latest_ai_news
 from .summarize import summarize_news
 from .output_writer import write_to_markdown
+from .notifiers.telegram import send_to_telegram
 
 
 def main() -> None:
@@ -31,6 +32,14 @@ def main() -> None:
     print("\nScrittura file output...")
     output_path = write_to_markdown(news)
     print(f"File creato: {output_path}")
+
+    print("\nInvio notifica Telegram...")
+    content = output_path.read_text(encoding="utf-8")
+    success = send_to_telegram(content)
+    if success:
+        print("Notifica Telegram inviata con successo")
+    else:
+        print("Notifica Telegram fallita (controlla configurazione .env)")
 
     print("\nFlusso completato")
 
