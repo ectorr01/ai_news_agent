@@ -1,5 +1,9 @@
 # AI News Agent
 
+![OpenRouter](https://img.shields.io/badge/OpenRouter-LLM-orange.svg)
+![Telegram](https://img.shields.io/badge/Telegram-Bot-blue.svg)
+![Obsidian](https://img.shields.io/badge/Obsidian-Markdown-purple.svg)
+
 Agente Python autonomo che recupera le notizie più recenti sull'intelligenza artificiale da feed RSS, ne genera riassunti in italiano tramite LLM e li distribuisce su file Markdown (compatibile Obsidian) e Telegram.
 
 ## Caratteristiche
@@ -38,7 +42,7 @@ project/
 
 ```bash
 # Clona il repository
-git clone https://github.com/tuo-username/ai-news-agent.git
+git clone https://github.com/ectorr01/ai-news-agent.git
 cd ai-news-agent
 
 # Crea ambiente virtuale
