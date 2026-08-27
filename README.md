@@ -123,6 +123,24 @@ Riassunto di 3-5 frasi in italiano.
 
 Messaggio Markdown con le 3 notizie riassunte e link alle fonti, inviato sia in chat privata che nel canale configurato.
 
+## Screenshot
+
+### Output Markdown (Obsidian)
+
+![Output Markdown](screenshots/screen1.png)
+
+### Notifica Telegram chat privata bot
+
+![Telegram](screenshots/screen2.png)
+
+### Notifica Telegram chat canale pubblico
+
+![Telegram](screenshots/screen3.png)
+
+### Terminale durante l'esecuzione
+
+![Terminale VSC](screenshots/screen4.png)
+
 
 ## Dipendenze
 
