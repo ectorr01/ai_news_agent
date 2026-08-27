@@ -127,19 +127,19 @@ Messaggio Markdown con le 3 notizie riassunte e link alle fonti, inviato sia in 
 
 ### Output Markdown (Obsidian)
 
-![Output Markdown](screenshots/screen1.png)
+![Output Markdown](screenshots/screen1.PNG)
 
 ### Notifica Telegram chat privata bot
 
-![Telegram](screenshots/screen2.png)
+![Telegram](screenshots/screen2.PNG)
 
 ### Notifica Telegram chat canale pubblico
 
-![Telegram](screenshots/screen3.png)
+![Telegram](screenshots/screen3.PNG)
 
 ### Terminale durante l'esecuzione
 
-![Terminale VSC](screenshots/screen4.png)
+![Terminale VSC](screenshots/screen4.PNG)
 
 
 ## Dipendenze
