@@ -95,6 +95,23 @@ source venv/bin/activate  # Linux/Mac
 python -m src.main
 ```
 
+## Daily Automation (Windows)
+
+Runs `main.py` every day at **09:30** only if the PC is on (no wake):
+```powershell
+# Create the task (run PowerShell as administrator)
+# Replace C:\path\to\ai-news-agent with the local path of your clone
+schtasks /create /tn "AI-News-Daily" /tr "\"C:\path\to\ai-news-agent\scripts\run_daily.bat\"" /sc daily /st 09:30 /f
+
+# Immediate test
+schtasks /run /tn "AI-News-Daily"
+
+# Check / remove
+schtasks /query /tn "AI-News-Daily" /v
+schtasks /delete /tn "AI-News-Daily" /f
+```
+The `scripts/run_daily.bat` script activates `venv` and appends logs to `logs/daily.log`. In the Task Scheduler GUI, make sure **"Wake the computer to run this task" is disabled**.
+
 The agent:
 1. Retrieves the 3 latest AI news articles (maximum 2 per feed)
 2. Generates Italian summaries using an LLM
